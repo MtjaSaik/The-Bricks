@@ -2,7 +2,7 @@ function drawIt() {
     var x = 250;
     var y = 700;
     var dx = 0;
-    var dy = 1;
+    var dy = 3;
     var WIDTH;
     var HEIGHT;
     var r = 10;
@@ -141,8 +141,10 @@ function drawIt() {
         if (y + dy < r)
             dy = -dy;
         else if (y + dy > HEIGHT - r) {
-            if (x > paddlex && x < paddlex + paddlew)
+            if (x > paddlex && x < paddlex + paddlew) {
+                dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
+            }
             else if (y + dy > HEIGHT - r)
                 clearInterval(intervalId);
         }
@@ -162,6 +164,7 @@ function drawIt() {
             }
         }
 
+
         circle(x, y, 10);
         //premik ploščice levo in desno
         if (rightDown) {
@@ -177,6 +180,27 @@ function drawIt() {
             } else {
                 paddlex = 0;
             }
+        }
+
+        rowheight = BRICKHEIGHT + PADDING; //Smo zadeli opeko?
+        colwidth = BRICKWIDTH + PADDING;
+        row = Math.floor(y / rowheight);
+        col = Math.floor(x / colwidth);
+        //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
+        if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+            dy = -dy; bricks[row][col] = 0;
+        }
+        if (x + dx > WIDTH - r || x + dx < r)
+            dx = -dx;
+        if (y + dy < r)
+            dy = -dy;
+        else if (y + dy > HEIGHT - r) {
+            if (x > paddlex && x < paddlex + paddlew) {
+                dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
+                dy = -dy;
+            }
+            else if (y + dy > HEIGHT - r)
+                clearInterval(intervalId);
         }
     }
 }
