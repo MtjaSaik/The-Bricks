@@ -1,8 +1,17 @@
+var check = true;
+document.addEventListener("DOMContentLoaded", drawIt);
+
+function starter(){
+    if(check){
+        check = false;
+    }
+}
+
 function drawIt() {
-    var x = 250;
+    var x = 500;
     var y = 700;
     var dx = 0;
-    var dy = 3;
+    var dy = 0;
     var WIDTH;
     var HEIGHT;
     var r = 10;
@@ -20,13 +29,24 @@ function drawIt() {
     var BRICKWIDTH;
     var BRICKHEIGHT;
     var PADDING;
-
+    var tocke;
+    var sekunde;
+    var sekundeI;
+    var minuteI;
+    var intTimer;
+    var izpisTimer;
+    var start = true;
 
     function init() {
         ctx = $('#canvas')[0].getContext("2d");
         WIDTH = $("#canvas").width();
         HEIGHT = $("#canvas").height();
-        return setInterval(draw, 10);
+        tocke = 0;
+        $("#tocke").html(tocke);
+        sekunde = 0;
+        izpisTimer = "00:00";
+        intTimer = setInterval(timer, 1000);
+        return intervalId = setInterval(draw, 10);
     }
 
     function circle(x, y, r) {
@@ -55,9 +75,9 @@ function drawIt() {
     }
 
     function init_paddle() {
-        paddlex = WIDTH / 2;
+        paddlex = (WIDTH / 2) - 37.5;
         paddleh = 10;
-        paddlew = 75;
+        paddlew = 100;
     }
 
     //nastavljanje leve in desne tipke
@@ -76,14 +96,13 @@ function drawIt() {
     $(document).keyup(onKeyUp);
 
     function init_mouse() {
-        //canvasMinX = $("#canvas").offset().left;
         canvasMinX = $("canvas").offset().left;
         canvasMaxX = canvasMinX + WIDTH;
     }
 
     function onMouseMove(evt) {
         if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
-            paddlex = evt.pageX - canvasMinX;
+            paddlex = evt.pageX - canvasMinX - paddlew / 2;
         }
     }
     $(document).mousemove(onMouseMove);
@@ -92,7 +111,7 @@ function drawIt() {
         NROWS = 5;
         NCOLS = 5;
         BRICKWIDTH = (WIDTH / NCOLS) - 1;
-        BRICKHEIGHT = 15;
+        BRICKHEIGHT = 25;
         PADDING = 1;
         bricks = new Array(NROWS);
         for (i = 0; i < NROWS; i++) {
@@ -103,15 +122,29 @@ function drawIt() {
         }
     }
 
+    function timer() {
+        if (start == true) {
+            sekunde++;
 
+            sekundeI = ((sekundeI = (sekunde % 60)) > 9) ? sekundeI : "0" + sekundeI;
+            minuteI = ((minuteI = Math.floor(sekunde / 60)) > 9) ? minuteI : "0" + minuteI;
+            izpisTimer = minuteI + ":" + sekundeI;
 
+            $("#cas").html(izpisTimer);
+        }
+        else {
+            sekunde = 0;
+            //izpisTimer = "00:00";
+            $("#cas").html(izpisTimer);
+        }
+    }
     init();
     init_paddle();
     init_mouse();
     initbricks();
 
     function draw() {
-
+        console.log(dy);
         clear();
 
         circle(x, y, 10);
@@ -129,7 +162,6 @@ function drawIt() {
         y += dy;
 
 
-
         clear();
         circle(x, y, 10);
         //premik ploščice levo in desno
@@ -141,9 +173,11 @@ function drawIt() {
         if (y + dy < r)
             dy = -dy;
         else if (y + dy > HEIGHT - r) {
+            start = false;
             if (x > paddlex && x < paddlex + paddlew) {
                 dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
+                start = true;
             }
             else if (y + dy > HEIGHT - r)
                 clearInterval(intervalId);
@@ -169,14 +203,14 @@ function drawIt() {
         //premik ploščice levo in desno
         if (rightDown) {
             if ((paddlex + paddlew) < WIDTH) {
-                paddlex += 5;
+                paddlex += 0.5;
             } else {
                 paddlex = WIDTH - paddlew;
             }
         }
         else if (leftDown) {
             if (paddlex > 0) {
-                paddlex -= 5;
+                paddlex -= 0.5;
             } else {
                 paddlex = 0;
             }
@@ -189,6 +223,8 @@ function drawIt() {
         //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
         if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
             dy = -dy; bricks[row][col] = 0;
+            tocke += 1; //v primeru, da imajo opeko večjo utež lahko prištevate tudi npr. 2 ali 3; pred tem bi bilo smiselno dodati še kakšen pogoj, ki bi signaliziral mesta opek, ki imajo višjo vrednost
+            $("#tocke").html(tocke);
         }
         if (x + dx > WIDTH - r || x + dx < r)
             dx = -dx;
@@ -202,5 +238,11 @@ function drawIt() {
             else if (y + dy > HEIGHT - r)
                 clearInterval(intervalId);
         }
+        if(check == false && aa == true){
+            dy = 2;
+            aa = false;
+            }
     }
 }
+
+var aa = true;

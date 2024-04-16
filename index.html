@@ -3,11 +3,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="drawIt();">
+<body onkeydown="starter();">
     <div class="main">
         <div class="container">
             <div class="game">
-                <canvas id="canvas" width="500" height="800"></canvas>
+                <div class="txt">
+                    <h1>Press any key to start!</h1>
+                </div>
+                <canvas id="canvas" width="1000" height="800"></canvas>
+            </div>
+            <div class="score">
+                <div class="stats">
+                    <p>Točke: <mark id="tocke">0</mark></p>
+                    <p>Čas: <mark id="cas">00:00</mark></p>
+                </div>
             </div>
         </div>
     </div>

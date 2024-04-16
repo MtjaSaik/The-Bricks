@@ -3,6 +3,7 @@ html, body{
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .main{
@@ -12,13 +13,48 @@ html, body{
 
 .container{
     margin: auto;
-    width: 504px;
+    width: 1000px;
     height: 100%;
-    background-color: lightgray;
+}
+
+.txt{
+    width: 600px;
+    height: 150px;
+    margin-top: 500px;
+    margin-left: 200px;
+    z-index: 5;
+    position: absolute;
+    background-color: rgb(205, 205, 205);
+}
+
+.txt h1{
+    font-size: 30px;
+    display: flex;
+    margin: 55px auto;
+    justify-content: center;
 }
 
 .game{
+    margin-top: 50px;
     width: inherit;
+    background-color: lightgray;
+}
+
+.score{
+    width: inherit;
+    height: 60px;
+}
+
+.stats{
+    width: 500px;
+    margin: auto;
+	display: flex;
+	justify-content: space-around;
+}
+
+.stats p{
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 canvas{
