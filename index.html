@@ -10,12 +10,19 @@
                 <div class="txt" id="start">
                     <h1>Press any key to start!</h1>
                 </div>
-                <canvas id="canvas" width="1000" height="800"></canvas>
+                <canvas id="canvas" width="500" height="800">
+                    <img src="pictures/stone.png" alt="" id="stone">
+                    <img src="pictures/deepslate.png" alt="" id="deepslate">
+                    <img src="pictures/deepslate_emerald.png" alt="" id="deepslate_emerald">
+                    <img src="pictures/deepslate_diamond.png" alt="" id="deepslate_diamond">
+                    <img src="pictures/stone_gold.png" alt="" id="stone_gold">
+                    <img src="pictures/stone_iron.png" alt="" id="stone_iron">
+                </canvas>
             </div>
             <div class="score">
                 <div class="stats">
-                    <p>Točke: <mark id="tocke">0</mark></p>
-                    <p>Čas: <mark id="cas">00:00</mark></p>
+                    <p>Točke: <a id="tocke">0</a></p>
+                    <p>Čas: <a id="cas">00:00</a></p>
                 </div>
             </div>
         </div>
@@ -24,5 +31,6 @@
 
 <script src="script.js"></script>
 <script src="jQuery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </html>
