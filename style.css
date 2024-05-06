@@ -69,3 +69,17 @@ html, body{
 canvas{
     border: 2px solid black;
 }
+
+.swtitle{
+    text-shadow: 1px 1px #a5a5a5;
+    font-size: 50px;
+}
+
+.swtext{
+    text-shadow: 1px 1px rgba(150, 150, 150, 0.65);
+}
+
+.confirm{
+    width: 150px;
+    border-radius: 10px;
+}

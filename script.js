@@ -67,19 +67,53 @@ function drawIt() {
     const stone_gold = document.getElementById("stone_gold");
     const stone_iron = document.getElementById("stone_iron");
 
-    function win(){
+    function win() {
+        start = false;
         clearInterval(intAnim);
+        clearInterval(intTimer);
+
         Swal.fire({
-          title: "YOU WON",
-          text: "gg",
-          confirmButtonText: "PLAY AGAIN",
-          confirmButtonColor: "#7d9ab3",
+            title: "You won.",
+            text: "Good game.",
+            confirmButtonText: "play again",
+            confirmButtonColor: "#949494",
+            background: "rgba(255, 255, 255, 0.70)",
+            width: '450px',
+            customClass: {
+                confirmButton: 'confirm',
+                title: 'swtitle',
+                popup: 'swtext',
+            },
         }).then((result) => {
-          if (result.isConfirmed) {
-            location.reload();
-          }
+            if (result.isConfirmed) {
+                location.reload();
+            }
         });
-      }
+    }
+
+    function lose() {
+        start = false;
+        clearInterval(intAnim);
+        clearInterval(intTimer);
+
+        Swal.fire({
+            title: "You lose.",
+            text: "Better luck next time.",
+            confirmButtonText: "retry",
+            confirmButtonColor: "#949494",
+            background: "rgba(255, 255, 255, 0.70)",
+            width: '450px',
+            customClass: {
+                confirmButton: 'confirm',
+                title: 'swtitle',
+                popup: 'swtext',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    }
 
     function init() {
         ctx = $('#canvas')[0].getContext("2d");
@@ -268,7 +302,6 @@ function drawIt() {
         else if (leftDown) paddlex -= 2.5;
 
 
-
         rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
         if (x + dx > WIDTH - (r) || x + dx < r)
             dx = -dx;
@@ -283,12 +316,11 @@ function drawIt() {
             }
             else if (y + dy > HEIGHT - r)
                 clearInterval(intervalId);
+
         }
         x += dx;
         y += dy;
-
         rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
-
         //riši opeke
         for (i = 0; i < NROWS; i++) {
             for (j = 0; j < NCOLS; j++) {
@@ -419,7 +451,6 @@ function drawIt() {
                 win();
             }
         }
-
         if (x + dx > WIDTH - r || x + dx < r)
             dx = -dx;
         if (y + dy < r)
@@ -429,8 +460,10 @@ function drawIt() {
                 dx = 0.6 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
             }
-            else if (y + dy > HEIGHT - r)
+            else if (y + dy > HEIGHT - r){
+                lose();
                 clearInterval(intervalId);
+            }
         }
         if (check == false && aa == true) {
             dy = 2;
